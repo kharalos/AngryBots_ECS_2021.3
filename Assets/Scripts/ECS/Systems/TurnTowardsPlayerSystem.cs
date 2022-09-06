@@ -1,4 +1,4 @@
-﻿using Unity.Burst;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -7,11 +7,11 @@ using Unity.Transforms;
 using UnityEngine;
 
 [UpdateBefore(typeof(MoveForwardSystem))]
-public class TurnTowardsPlayerSystem : JobComponentSystem {
+public partial class TurnTowardsPlayerSystem : SystemBase {
 
-  protected override JobHandle OnUpdate(JobHandle inputDeps) {
+  protected override void OnUpdate() {
     if (Settings.IsPlayerDead())
-      return inputDeps;
+      return;
 
     float3 playerPosition = new float3(Settings.PlayerPosition);
 
@@ -23,8 +23,6 @@ public class TurnTowardsPlayerSystem : JobComponentSystem {
         heading.y = 0f;
         rot.Value = quaternion.LookRotation(heading, math.up());
       }).Run();
-
-    return default;
   }
 }
 

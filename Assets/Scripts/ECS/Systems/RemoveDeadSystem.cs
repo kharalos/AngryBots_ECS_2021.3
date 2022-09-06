@@ -1,10 +1,10 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
 
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 [AlwaysSynchronizeSystem]
-public class RemoveDeadSystem : SystemBase {
+public partial class RemoveDeadSystem : SystemBase {
 
   protected override void OnUpdate() {
     EntityCommandBuffer commandBuffer = new EntityCommandBuffer(Unity.Collections.Allocator.TempJob);

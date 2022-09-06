@@ -1,23 +1,22 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Unity.Transforms {
-  public class MoveForwardSystem : JobComponentSystem {
+  public partial class MoveForwardSystem : SystemBase
+  {
+    protected override void OnUpdate()
+    {
+      var dt = Time.DeltaTime;
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps) {
-
-      float dt = Time.DeltaTime;
-
-      JobHandle jobHandle = Entities
+      Entities
         .WithAll<MoveForward>()
         .WithBurst()
-        .ForEach((ref Translation pos, in Rotation rot, in MoveSpeed speed) => {
-          pos.Value = pos.Value + (dt * speed.Value * math.forward(rot.Value));
-        }).Schedule(inputDeps);
-
-      return jobHandle;
+        .ForEach((ref Translation pos, in Rotation rot, in MoveSpeed speed) =>
+        {
+          pos.Value = pos.Value + dt * speed.Value * math.forward(rot.Value);
+        }).Schedule();
     }
   }
 }
